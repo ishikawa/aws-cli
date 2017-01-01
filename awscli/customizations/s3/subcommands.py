@@ -417,6 +417,14 @@ REQUEST_PAYER = {
     )
 }
 
+NORMALIZE_UNICODE = {
+    'name': 'normalize-unicode', 'action': 'store_true',
+    'help_text': (
+        'Normalizes file names read from the local filesystem in unicode '
+        'normal form KC. This is mainly useful when running on OS X.'
+    )
+}
+
 TRANSFER_ARGS = [DRYRUN, QUIET, INCLUDE, EXCLUDE, ACL,
                  FOLLOW_SYMLINKS, NO_FOLLOW_SYMLINKS, NO_GUESS_MIME_TYPE,
                  SSE, SSE_C, SSE_C_KEY, SSE_KMS_KEY_ID, SSE_C_COPY_SOURCE,
@@ -424,7 +432,8 @@ TRANSFER_ARGS = [DRYRUN, QUIET, INCLUDE, EXCLUDE, ACL,
                  WEBSITE_REDIRECT, CONTENT_TYPE, CACHE_CONTROL,
                  CONTENT_DISPOSITION, CONTENT_ENCODING, CONTENT_LANGUAGE,
                  EXPIRES, SOURCE_REGION, ONLY_SHOW_ERRORS,
-                 PAGE_SIZE, IGNORE_GLACIER_WARNINGS, FORCE_GLACIER_TRANSFER]
+                 PAGE_SIZE, IGNORE_GLACIER_WARNINGS, FORCE_GLACIER_TRANSFER,
+                 NORMALIZE_UNICODE]
 
 
 def get_client(session, region, endpoint_url, verify, config=None):
@@ -963,12 +972,14 @@ class CommandArchitecture(object):
             'client': self._source_client, 'operation_name': operation_name,
             'follow_symlinks': self.parameters['follow_symlinks'],
             'page_size': self.parameters['page_size'],
+            'normalize_unicode': self.parameters['normalize_unicode'],
             'result_queue': result_queue,
         }
         rgen_kwargs = {
             'client': self._client, 'operation_name': '',
             'follow_symlinks': self.parameters['follow_symlinks'],
             'page_size': self.parameters['page_size'],
+            'normalize_unicode': self.parameters['normalize_unicode'],
             'result_queue': result_queue,
         }
 
